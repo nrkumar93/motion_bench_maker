@@ -3,31 +3,34 @@
   <!-- GDB Debug Option -->
   <arg name="debug" default="false" />
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
-  <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+  <arg if="$(arg debug)" name="launch_prefix" value="gdb --args" />
 
   <!-- Arguments for ROS parameters -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/shelf_fetch" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_fetch" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_fetch" /> -->
-<!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_panda" /> -->
+  <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_panda" />
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_fetch" /> -->
-<!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_bars_fetch" /> -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_ur5" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_bars_panda" /> -->
-  <arg name="dataset" default="package://motion_bench_maker/problems/kitchen_fetch" />
   <arg name="geometric" default="true" />
   <arg name="sensed" default="false" />
   <arg name="solve" default="true" />
   <arg name="rviz" default="visualize" />
   <arg name="pcd" default="false" />
+  <arg name="planner_name" default="MHAstar_DEFAULT"/>
+  <arg name="time_limit" default="30" />
 
   <!-- Start the create dataset node -->
-  <node  name="visualize" launch-prefix="$(arg launch_prefix)" pkg="motion_bench_maker" type="visualize" output="screen" required = "true" > 
-    
+  <node  name="visualize_search" launch-prefix="$(arg launch_prefix)" pkg="motion_bench_maker" type="visualize_search" output="screen" required = "true" >
+
     <param name="dataset" value="$(arg dataset)" />
     <param name="geometric" value="$(arg geometric)" />
     <param name="sensed" value="$(arg sensed)" />
     <param name="solve" value="$(arg solve)" />
     <param name="pcd" value="$(arg pcd)" />
+    <param name="planner_name" value="$(arg planner_name)"/>
+    <param name="time_limit" value="$(arg time_limit)" />
 
   </node>
 
@@ -35,5 +38,5 @@
   <include file="$(find motion_bench_maker)/launch/rviz.launch" >
     <arg name="config" value="$(arg rviz)" />
   </include>
-  
+
 </launch>

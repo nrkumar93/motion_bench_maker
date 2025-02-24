@@ -6,9 +6,12 @@
   <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
 
   <!-- Arguments for ROS parameters -->
-  <arg name="config" default="" />
-  <arg name="dataset" default="" />
-  <arg name="planner_name" default="RRTConnectkConfigDefault"/>
+<!--   <arg name="config" default="" /> -->
+<!--   <arg name="dataset" default="" /> -->
+  <arg name="config" default="package://motion_bench_maker/problems/bookshelf_small_fetch/config.yaml" />
+  <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_fetch" />
+<!--   <arg name="planner_name" default="RRTConnectkConfigDefault"/> -->
+  <arg name="planner_name" default="wAstar_DEFAULT"/>
   <arg name="visualize" default="false" />
   <arg name="sensed" default="false" />
   <arg name="pointcloud" default="false" />
