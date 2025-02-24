@@ -1,5 +1,6 @@
 # Build
 */build
+cmake-build-*
 
 # Prerequisites
 *.d
@@ -57,3 +58,6 @@ problems/*
 hyperparameters/*
 *.png
 *imgs
+
+#clion
+*.idea
