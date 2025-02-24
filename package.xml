@@ -12,6 +12,7 @@
   <!-- RobowFlex-->
   <depend>robowflex_library</depend>
   <depend>robowflex_ompl</depend>
+  <depend>  robowflex_search</depend>
   <depend>robowflex_resources</depend>
 
   <depend>pcl_conversions</depend>
