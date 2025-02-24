@@ -91,6 +91,13 @@ int main(int argc, char **argv)
         auto start = request->getStartConfiguration();
         rviz->visualizeState(start);
 
+        parser::waitForUser("Displaying start:" + std::to_string(i));
+        if (geometric)  // Trick to visualize start/goal together
+        {
+            scene_geom->getCurrentState() = *start;
+            rviz->updateScene(scene_geom);
+        }
+
         std::vector<double> start_joint_values;
         start->copyJointGroupPositions(setup->getGroup(), start_joint_values);
         std::cout << "start: ";
@@ -99,15 +106,11 @@ int main(int argc, char **argv)
         }
         std::cout << std::endl;
 
-        parser::waitForUser("Displaying start:" + std::to_string(i));
-        if (geometric)  // Trick to visualize start/goal together
-        {
-            scene_geom->getCurrentState() = *start;
-            rviz->updateScene(scene_geom);
-        }
 
         auto goal = request->getGoalConfiguration();
         rviz->visualizeState(goal);
+
+        parser::waitForUser("Displaying Goal:" + std::to_string(i));
 
         std::vector<double> goal_joint_values;
         goal->copyJointGroupPositions(setup->getGroup(), goal_joint_values);
@@ -115,8 +118,7 @@ int main(int argc, char **argv)
         for (auto& gj : goal_joint_values) {
             std::cout << gj << ", ";
         }
-
-        parser::waitForUser("Displaying Goal:" + std::to_string(i));
+        std::cout << std::endl;
 
         auto trajectory = std::make_shared<Trajectory>(robot, setup->getGroup());
         if (solve)
