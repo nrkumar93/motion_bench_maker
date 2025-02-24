@@ -8,6 +8,7 @@ set(LIBRARY_NAME ${PROJECT_NAME})
 list(APPEND CATKIN_SOURCES
   robowflex_library
   robowflex_ompl
+  robowflex_search
   pcl_conversions # to convert to pcl versions 
 )
 
@@ -64,9 +65,17 @@ add_executable(visualize scripts/visualize.cpp)
 target_link_libraries(visualize ${LIBRARY_NAME})
 add_dependencies(visualize ${catkin_EXPORTED_TARGETS})
 
+add_executable(visualize_search scripts/visualize_search.cpp)
+target_link_libraries(visualize_search ${LIBRARY_NAME})
+add_dependencies(visualize_search ${catkin_EXPORTED_TARGETS})
+
 add_executable(benchmark scripts/benchmark.cpp)
 target_link_libraries(benchmark ${LIBRARY_NAME})
 add_dependencies(benchmark ${catkin_EXPORTED_TARGETS})
+
+add_executable(benchmark_search scripts/benchmark_search.cpp)
+target_link_libraries(benchmark_search ${LIBRARY_NAME})
+add_dependencies(benchmark_search ${catkin_EXPORTED_TARGETS})
 
 add_executable(paper_example scripts/paper_example.cpp)
 target_link_libraries(paper_example ${LIBRARY_NAME})
