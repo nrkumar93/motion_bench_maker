@@ -54,12 +54,35 @@ list(APPEND LIBRARIES
   yaml-cpp
   )
 
+list(APPEND NO_GL_SOURCES
+        src/setup.cpp
+        src/yaml.cpp
+)
+
+list(APPEND NO_GL_INCLUDES
+        ${CMAKE_CURRENT_LIST_DIR}/include
+        ${catkin_INCLUDE_DIRS}
+        ${Boost_INCLUDE_DIRS}
+        ${EIGEN3_INCLUDE_DIRS}
+        ${OCTOMAP_INCLUDE_DIRS}
+)
+
+list(APPEND NO_GL_LIBRARIES
+        ${catkin_LIBRARIES}
+        ${Boost_LIBRARIES}
+        yaml-cpp
+)
+
 
 include_directories(SYSTEM ${INCLUDES})
 link_directories(${catkin_LIBRARY_DIRS})
 add_library(${LIBRARY_NAME} ${SOURCES})
 set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
 target_link_libraries(${LIBRARY_NAME} ${LIBRARIES})
+
+add_library(NO_GL_${LIBRARY_NAME} ${SOURCES})
+set_target_properties(NO_GL_${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
+target_link_libraries(NO_GL_${LIBRARY_NAME} ${NO_GL_LIBRARIES})
 
 add_executable(visualize scripts/visualize.cpp)
 target_link_libraries(visualize ${LIBRARY_NAME})
@@ -74,7 +97,7 @@ target_link_libraries(benchmark ${LIBRARY_NAME})
 add_dependencies(benchmark ${catkin_EXPORTED_TARGETS})
 
 add_executable(benchmark_search scripts/benchmark_search.cpp)
-target_link_libraries(benchmark_search ${LIBRARY_NAME})
+target_link_libraries(benchmark_search NO_GL_${LIBRARY_NAME})
 add_dependencies(benchmark_search ${catkin_EXPORTED_TARGETS})
 
 add_executable(paper_example scripts/paper_example.cpp)
