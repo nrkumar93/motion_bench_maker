@@ -57,6 +57,7 @@ list(APPEND LIBRARIES
 list(APPEND NO_GL_SOURCES
         src/setup.cpp
         src/yaml.cpp
+        src/problem_generator.cpp
 )
 
 list(APPEND NO_GL_INCLUDES
