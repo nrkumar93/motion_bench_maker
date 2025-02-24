@@ -16,6 +16,8 @@
 
 // Robowflex ompl
 #include <robowflex_ompl/ompl_interface.h>
+// Robowflex search
+#include <robowflex_search/search_interface.h>
 
 // Boost
 #include <boost/filesystem.hpp>  // for filesystem paths
@@ -129,6 +131,11 @@ void Setup::loadMainParams(const YAML::Node &node)
     else
         throw Exception(1, "No ompl_config entry!");
 
+    if (IO::isNode(node["search_config"]))
+        mparams_->search_config = node["search_config"].as<std::string>();
+    else
+        throw Exception(1, "No search_config entry!");
+
     if (IO::isNode(node["planning_group"]))
         mparams_->planning_group = node["planning_group"].as<std::string>();
     else
@@ -187,6 +194,14 @@ OMPL::OMPLInterfacePlannerPtr Setup::createPlanner(const std::string &name,
 {
     auto planner = std::make_shared<robowflex::OMPL::OMPLInterfacePlanner>(robot_, name);
     planner->initialize(mparams_->ompl_config, settings);
+    return planner;
+}
+
+search::SearchInterfacePlannerPtr Setup::createSearchPlanner(const std::string &name, const std::string &gp_name,
+                                                              const search::Settings &settings) const
+{
+    auto planner = std::make_shared<search::SearchInterfacePlanner>(robot_, "");
+    planner->initialize(name,  gp_name, mparams_->search_config, settings);
     return planner;
 }
 

@@ -27,6 +27,11 @@ namespace robowflex
     {
         ROBOWFLEX_CLASS_FORWARD(OMPLInterfacePlanner);
     }
+    namespace search
+    {
+        ROBOWFLEX_CLASS_FORWARD(SearchInterfacePlanner);
+    }
+
 
     ROBOWFLEX_CLASS_FORWARD(Setup);
     class Setup
@@ -39,6 +44,7 @@ namespace robowflex
             std::string robot_description;
             std::string planning_group;
             std::string ompl_config;
+            std::string search_config;
             int samples;
         };
 
@@ -74,6 +80,8 @@ namespace robowflex
         const GenParametersConstPtr getGenParameters() const;
         OMPL::OMPLInterfacePlannerPtr createPlanner(const std::string &name,
                                                     const OMPL::Settings &settings = OMPL::Settings()) const;
+        search::SearchInterfacePlannerPtr createSearchPlanner(const std::string &name, const std::string &gp_name,
+                                                              const search::Settings &settings = search::Settings()) const;
         MotionRequestBuilderPtr createRequest() const;
 
         // Load functions from yaml files

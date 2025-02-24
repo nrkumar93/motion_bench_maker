@@ -27,6 +27,10 @@ namespace robowflex
     {
         ROBOWFLEX_CLASS_FORWARD(OMPLInterfacePlanner);
     }
+    namespace search
+    {
+        ROBOWFLEX_CLASS_FORWARD(SearchInterfacePlanner);
+    }
     /** \endcond */
 
     /** \cond IGNORE */
