@@ -1,7 +1,7 @@
 /* Author: Carlos Quintero, Constantinos Chamzas */
 
 // Robowflex dataset
-#include <motion_bench_maker/octomap_generator.h>
+// #include <motion_bench_maker/octomap_generator.h>
 #include <motion_bench_maker/parser.h>
 #include <motion_bench_maker/problem_generator.h>
 #include <motion_bench_maker/scene_sampler.h>
@@ -16,7 +16,8 @@
 #include <robowflex_library/yaml.h>
 
 // Robowflex ompl
-#include <robowflex_ompl/ompl_interface.h>
+// #include <robowflex_ompl/ompl_interface.h>
+#include <robowflex_search/search_interface.h>
 
 using namespace robowflex;
 int main(int argc, char **argv)
@@ -50,13 +51,19 @@ int main(int argc, char **argv)
     auto robot = setup->getRobot();
     auto group = setup->getGroup();
 
-    // Disable hybridization
-    auto settings = OMPL::Settings();
-    settings.hybridize_solutions = false;
-    settings.interpolate_solutions = false;
+    // // Disable hybridization
+    // auto settings = OMPL::Settings();
+    // settings.hybridize_solutions = false;
+    // settings.interpolate_solutions = false;
+    //
+    // // Create planner
+    // auto planner = setup->createPlanner("planner", settings);
 
     // Create planner
-    auto planner = setup->createPlanner("planner", settings);
+    auto settings = search::Settings();
+    settings.interpolate_solutions = false;
+    auto planner = setup->createSearchPlanner("", setup->getGroup(), settings);
+
     auto gp = setup->getGenParameters();
 
     // Nominal scene.
@@ -78,9 +85,9 @@ int main(int argc, char **argv)
         problem_generator->setParameters(robot, group, gp->ee_offset, gp->tips, gp->ee_dependency);
 
     // Create an octomap generator.
-    OctomapGeneratorPtr octomap_generator = nullptr;
-    if (sensed)
-        octomap_generator = std::make_shared<OctomapGenerator>(gp->sensors);
+    // OctomapGeneratorPtr octomap_generator = nullptr;
+    // if (sensed)
+    //     octomap_generator = std::make_shared<OctomapGenerator>(gp->sensors);
 
     // Create scene_sampler
     auto scene_sampler = std::make_shared<SceneSampler>(gp->variation, gp->base_offset);
@@ -106,8 +113,8 @@ int main(int argc, char **argv)
             scene_geom = scene_sampler->sample(nominal_urdf, robot);
 
         auto scene = scene_geom->deepCopy();
-        if (sensed and octomap_generator)
-            octomap_generator->geomToSensed(scene_geom, scene, visualize_sensed ? rviz : nullptr);
+        // if (sensed and octomap_generator)
+        //     octomap_generator->geomToSensed(scene_geom, scene, visualize_sensed ? rviz : nullptr);
 
         // Update the scene in the problem_generator
         problem_generator->updateScene(scene);
@@ -166,8 +173,8 @@ int main(int argc, char **argv)
                             scene->removeCollisionObject(obj);
                     setup->saveSensedScene(index, scene);
                     // Save the pointcloud as well
-                    if (pointcloud)
-                        setup->savePCDScene(index, octomap_generator->getLastPointCloud());
+                    // if (pointcloud)
+                    //     setup->savePCDScene(index, octomap_generator->getLastPointCloud());
                 }
 
                 index++;
