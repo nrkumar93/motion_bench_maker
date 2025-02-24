@@ -80,7 +80,7 @@ add_library(${LIBRARY_NAME} ${SOURCES})
 set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
 target_link_libraries(${LIBRARY_NAME} ${LIBRARIES})
 
-add_library(NO_GL_${LIBRARY_NAME} ${SOURCES})
+add_library(NO_GL_${LIBRARY_NAME} ${NO_GL_SOURCES})
 set_target_properties(NO_GL_${LIBRARY_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
 target_link_libraries(NO_GL_${LIBRARY_NAME} ${NO_GL_LIBRARIES})
 
