@@ -1,0 +1,56 @@
+planner_configs:
+  Astar_je_1:
+    type: Astar
+    heuristic: joint_euclidean
+    resolution: 1
+    allowed_planning_time: 10.0
+  wAstar_DEFAULT:
+    type: wAstar
+    heuristic: bfs
+    resolution: 1
+    weight: 100
+    allowed_planning_time: 10.0
+  wAstar_bfs_1_50:
+    type: wAstar
+    heuristic: bfs
+    resolution: 1
+    weight: 50
+    allowed_planning_time: 10.0
+  wAstar_bfs_1_100:
+    type: wAstar
+    heuristic: bfs
+    resolution: 1
+    weight: 100
+    allowed_planning_time: 10.0
+  wAstar_je_1_50:
+    type: wAstar
+    heuristic: joint_euclidean
+    resolution: 1
+    weight: 50
+    allowed_planning_time: 10.0
+  MHAstar_DEFAULT:
+    type: MHAstar
+    heuristic: joint_euclidean
+    inadmissible_heuristics: bfs  # Comma separated list of inadmissible heuristic names. Example: bfs,joint_euclidean
+    resolution: 1
+    w1: 50.0  # The weight of the anchor heuristic.
+    w2: 5   # the inflation factor of fmin_anchor for determining which nodes can be expanded.
+    allowed_planning_time: 10.0
+  MHAstar_je_bfs_1_50_2:
+    type: MHAstar
+    heuristic: joint_euclidean
+    inadmissible_heuristics: bfs  # Comma separated list of inadmissible heuristic names. Example: bfs,joint_euclidean
+    resolution: 1
+    w1: 50.0  # The weight of the anchor heuristic.
+    w2: 5   # the inflation factor of fmin_anchor for determining which nodes can be expanded.
+    allowed_planning_time: 10.0
+arm_with_torso:
+  default_planner_config: MHAstar_DEFAULT
+  planner_configs:
+    - Astar_je_1
+    - wAstar_DEFAULT
+    - wAstar_bfs_1_50
+    - wAstar_bfs_1_100
+    - wAstar_je_1_50
+    - MHAstar_DEFAULT
+    - MHAstar_je_bfs_1_50_2
