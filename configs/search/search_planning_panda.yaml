@@ -42,7 +42,7 @@ planner_configs:
     inadmissible_heuristics: bfs  # Comma separated list of inadmissible heuristic names. Example: bfs,joint_euclidean
     resolution: 1
     w1: 50.0  # The weight of the anchor heuristic.
-    w2: 5   # the inflation factor of fmin_anchor for determining which nodes can be expanded.
+    w2: 2   # the inflation factor of fmin_anchor for determining which nodes can be expanded.
     allowed_planning_time: 10.0
   Epase_DEFAULT:
     type: Epase
