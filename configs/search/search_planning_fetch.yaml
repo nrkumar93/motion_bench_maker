@@ -28,6 +28,30 @@ planner_configs:
     resolution: 1
     weight: 50
     allowed_planning_time: 10.0
+  ARAstar_DEFAULT:
+    type: ARAstar
+    heuristic: bfs
+    resolution: 1
+    initial_weight: 100
+    weight_delta: 10
+    final_weight: 1
+    allowed_planning_time: 10.0
+  ARAstar_bfs_1_50_5_1:
+    type: ARAstar
+    heuristic: bfs
+    resolution: 1
+    initial_weight: 50
+    weight_delta: 5
+    final_weight: 1
+    allowed_planning_time: 10.0
+  ARAstar_je_1_100_10_1:
+    type: ARAstar
+    heuristic: joint_euclidean
+    resolution: 1
+    initial_weight: 100
+    weight_delta: 10
+    final_weight: 1
+    allowed_planning_time: 10.0
   MHAstar_DEFAULT:
     type: MHAstar
     heuristic: joint_euclidean
@@ -59,6 +83,9 @@ arm_with_torso:
     - wAstar_bfs_1_50
     - wAstar_bfs_1_100
     - wAstar_je_1_50
+    - ARAstar_DEFAULT
+    - ARAstar_bfs_1_50_5_1
+    - ARAstar_je_1_100_10_1
     - MHAstar_DEFAULT
     - MHAstar_je_bfs_1_50_2
     - Epase_DEFAULT
