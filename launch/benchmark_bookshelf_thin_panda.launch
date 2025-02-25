@@ -17,7 +17,7 @@
   <arg name="runs" default="1" />
 
   <arg name="sensed" default="false" />
-  <arg name="planners" default="RRTConnectkConfigDefault, BiESTkConfigDefault, RRTstarkConfigDefault, BITstarkConfigDefault"/>
+  <arg name="planners" default="RRTConnectkConfigDefault, BiESTkConfigDefault, RRTstarkConfigDefault"/>
 <!--   <arg name="planners" default="RRTConnectDefault"/> -->
 
   <!-- Start the create dataset node -->
