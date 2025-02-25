@@ -9,7 +9,18 @@
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/shelf_fetch" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_fetch" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_fetch" /> -->
-  <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_panda" />
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_panda" /> -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_tall_panda" /> -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_thin_panda" /> -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_panda" /> -->
+  <arg name="dataset" default="package://motion_bench_maker/problems/box_panda_flipped" />
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/box_panda" /> --><!--  doesnt work -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_ur5" /> -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_bars_panda" /> --> <!--  soso -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/kitchen_panda" /> --><!--  doesnt work -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/cage_panda" /> --><!--  doesnt work -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_tall_fetch" /> -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_tall_ur5" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_fetch" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_ur5" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_bars_panda" /> -->

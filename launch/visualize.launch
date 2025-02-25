@@ -13,7 +13,9 @@
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/bookshelf_small_fetch" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_bars_fetch" /> -->
 <!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_bars_panda" /> -->
-  <arg name="dataset" default="package://motion_bench_maker/problems/kitchen_fetch" />
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/kitchen_fetch" /> -->
+<!--   <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_panda" /> -->
+  <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_baxter" />
   <arg name="geometric" default="true" />
   <arg name="sensed" default="false" />
   <arg name="solve" default="true" />
