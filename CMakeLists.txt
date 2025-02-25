@@ -94,7 +94,7 @@ target_link_libraries(visualize_search ${LIBRARY_NAME})
 add_dependencies(visualize_search ${catkin_EXPORTED_TARGETS})
 
 add_executable(benchmark scripts/benchmark.cpp)
-target_link_libraries(benchmark ${LIBRARY_NAME})
+target_link_libraries(benchmark NO_GL_${LIBRARY_NAME})
 add_dependencies(benchmark ${catkin_EXPORTED_TARGETS})
 
 add_executable(benchmark_search scripts/benchmark_search.cpp)
