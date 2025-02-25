@@ -51,7 +51,7 @@ planner_configs:
     weight: 50
     num_threads: 2
     allowed_planning_time: 10.0
-manipulator:
+left_arm:
   default_planner_config: MHAstar_DEFAULT
   planner_configs:
     - Astar_je_1
