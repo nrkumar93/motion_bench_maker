@@ -7,6 +7,7 @@
 // Robowflex dataset
 #include <motion_bench_maker/setup.h>
 #include <motion_bench_maker/parser.h>
+#include <motion_bench_maker/utils.h>
 
 // Robowflex library
 #include <robowflex_library/io/visualization.h>
@@ -16,6 +17,7 @@
 
 // Robowflex search
 #include <robowflex_search/search_interface.h>
+#include <robowflex_ompl/ompl_interface.h>
 
 // PCL
 #include <pcl_conversions/pcl_conversions.h>
@@ -121,13 +123,14 @@ int main(int argc, char **argv)
         std::cout << std::endl;
 
         auto trajectory = std::make_shared<Trajectory>(robot, setup->getGroup());
+        planning_interface::MotionPlanResponse mpres;
         if (solve)
         {
             request->setAllowedPlanningTime(time_limit);
             request->setNumPlanningAttempts(1);
-            const auto &res = planner->plan(scene_geom, request->getRequestConst());
-            if (res.error_code_.val == moveit_msgs::MoveItErrorCodes::SUCCESS)
-                trajectory->getTrajectory() = res.trajectory_;
+            mpres = planner->plan(scene_geom, request->getRequestConst());
+            if (mpres.error_code_.val == moveit_msgs::MoveItErrorCodes::SUCCESS)
+                trajectory->getTrajectory() = mpres.trajectory_;
             else
                 continue;
         }
@@ -135,8 +138,26 @@ int main(int argc, char **argv)
         else
             setup->loadTrajectory(i, *start, trajectory);
 
-        trajectory->interpolate(100);
+        // For path simplification
+        double max_simp_time = 1.0;
+        auto ompl_settings = OMPL::Settings();
+        ompl_settings.simplify_solutions = true;
+        auto ompl_planner = setup->createPlanner("ompl_planner", ompl_settings);
 
+        auto mbcontext = ompl_planner->getPlanningContext(scene_geom, request->getRequestConst());
+        auto mbss = mbcontext->getOMPLStateSpace();
+        ompl::base::SpaceInformationPtr si = std::make_shared<ompl::base::SpaceInformation>(mbss);
+        si->setup();
+        ompl::geometric::PathSimplifier psimper(si);
+
+        auto ompl_gp = convertMoveItMotionPlanResponseToOMPLPathGeometric(mpres, si);
+        // psimper.simplify(ompl_gp, max_simp_time);
+        // psimper.shortcutPath(ompl_gp);
+        psimper.reduceVertices(ompl_gp);
+        auto simp_traj = convertOMPLPathGeometricToMoveItRobotTrajectory(ompl_gp, robot->getModelConst(), setup->getGroup());
+        // trajectory =  std::make_shared<robowflex::Trajectory>(simp_traj);
+
+        trajectory->interpolate(100);
         rviz->updateTrajectory(trajectory->getTrajectoryConst());
 
         parser::waitForUser("Displaying computed/loaded trajectory:" + std::to_string(i));

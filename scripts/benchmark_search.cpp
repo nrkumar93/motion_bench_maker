@@ -7,6 +7,7 @@
 // Robowflex dataset
 #include <motion_bench_maker/setup.h>
 #include <motion_bench_maker/parser.h>
+#include <motion_bench_maker/utils.h>
 
 // Robowflex library
 #include <robowflex_library/benchmarking.h>
@@ -16,7 +17,14 @@
 
 // Robowflex search
 #include <robowflex_search/search_interface.h>
-// #include <robowflex_ompl/ompl_interface.h>
+#include <robowflex_ompl/ompl_interface.h>
+#include <moveit/planning_interface/planning_interface.h>
+#include <moveit/robot_trajectory/robot_trajectory.h>
+#include <ompl/geometric/PathGeometric.h>
+#include <ompl/base/SpaceInformation.h>
+#include <ompl/base/spaces/RealVectorStateSpace.h>
+#include <moveit/robot_trajectory/robot_trajectory.h>
+#include <robowflex_library/trajectory.h>
 
 using namespace robowflex;
 
@@ -97,6 +105,41 @@ int main(int argc, char **argv)
     }
 
     auto results_data = experiment.benchmark(1);
+
+    // For path simplification
+    double max_simp_time = 1.0;
+    auto ompl_settings = OMPL::Settings();
+    ompl_settings.simplify_solutions = true;
+    auto ompl_planner = setup->createPlanner("ompl_planner", ompl_settings);
+    for (const auto& rd : results_data->data) {
+        for (const auto& data_unit : rd.second) {
+            if (not data_unit->success) {
+                continue;
+            }
+
+            auto& mpreq = data_unit->query.request;
+            auto& mpres = data_unit->response;
+            auto& mpscene = data_unit->query.scene;
+
+            auto mbcontext = ompl_planner->getPlanningContext(mpscene, mpreq);
+            auto mbss = mbcontext->getOMPLStateSpace();
+            ompl::base::SpaceInformationPtr si = std::make_shared<ompl::base::SpaceInformation>(mbss);
+            si->setup();
+            ompl::geometric::PathSimplifier psimper(si);
+
+            auto ompl_gp = convertMoveItMotionPlanResponseToOMPLPathGeometric(mpres, si);
+            psimper.simplify(ompl_gp, max_simp_time);
+            auto simp_traj = convertOMPLPathGeometricToMoveItRobotTrajectory(ompl_gp, robot->getModelConst(), setup->getGroup());
+            data_unit->simplified_path =  std::make_shared<robowflex::Trajectory>(simp_traj);
+            std::cout << "Original path had: " << data_unit->trajectory->getNumWaypoints() << std::endl;
+            std::cout << "Original path length: " << data_unit->trajectory->getLength() << std::endl;
+            std::cout << "Simplified path had: " << data_unit->simplified_path->getNumWaypoints() << std::endl;
+            std::cout << "Simplified path length: " << data_unit->simplified_path->getLength() << std::endl;
+
+            data_unit->metrics["simplified_l1_length"] = robot_trajectory::path_length(*data_unit->simplified_path->getTrajectory());
+            data_unit->metrics["simplified_l2_length"] = data_unit->simplified_path->getLength();
+        }
+    }
 
     SearchPlanDataSetOutputter output(IO::resolveParent(results));
     std::cout << "Results dir: " << IO::resolveParent(results) << std::endl;
