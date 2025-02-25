@@ -20,9 +20,10 @@
   <arg name="runs" default="1" />
 
   <arg name="sensed" default="false" />
-  <arg name="planners" default="wAstar_DEFAULT, wAstar_bfs_1_50, wAstar_je_1_50, MHAstar_DEFAULT, MHAstar_je_bfs_1_50_2 "/>
+  <arg name="planners" default="wAstar_DEFAULT, wAstar_bfs_1_50, wAstar_je_1_50, ARAstar_DEFAULT, ARAstar_je_1_100_10_1, MHAstar_DEFAULT, MHAstar_je_bfs_1_50_2 "/>
 <!--   <arg name="planners" default="wAstar_DEFAULT"/> -->
 <!--   <arg name="planners" default="MHAstar_DEFAULT"/> -->
+<!--   <arg name="planners" default="ARAstar_DEFAULT"/> -->
 <!--   <arg name="planners" default="Epase_DEFAULT"/> -->
 
 
