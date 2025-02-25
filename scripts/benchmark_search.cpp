@@ -117,13 +117,10 @@ int main(int argc, char **argv)
                 continue;
             }
 
-            auto& mpreq = data_unit->query.request;
             auto& mpres = data_unit->response;
             auto& mpscene = data_unit->query.scene;
 
-            auto mbcontext = ompl_planner->getPlanningContext(mpscene, mpreq);
-            auto mbss = mbcontext->getOMPLStateSpace();
-            ompl::base::SpaceInformationPtr si = std::make_shared<ompl::base::SpaceInformation>(mbss);
+            ompl::base::SpaceInformationPtr si = convertMoveitPlanningSceneToOMPLSpaceInformation(mpscene->getSceneConst(), setup->getGroup());
             si->setup();
             ompl::geometric::PathSimplifier psimper(si);
 

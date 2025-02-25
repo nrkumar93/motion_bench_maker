@@ -140,22 +140,23 @@ int main(int argc, char **argv)
 
         // For path simplification
         double max_simp_time = 1.0;
-        auto ompl_settings = OMPL::Settings();
-        ompl_settings.simplify_solutions = true;
-        auto ompl_planner = setup->createPlanner("ompl_planner", ompl_settings);
-
-        auto mbcontext = ompl_planner->getPlanningContext(scene_geom, request->getRequestConst());
-        auto mbss = mbcontext->getOMPLStateSpace();
-        ompl::base::SpaceInformationPtr si = std::make_shared<ompl::base::SpaceInformation>(mbss);
+        // auto ompl_settings = OMPL::Settings();
+        // ompl_settings.simplify_solutions = true;
+        // auto ompl_planner = setup->createPlanner("ompl_planner", ompl_settings);
+        //
+        // auto mbcontext = ompl_planner->getPlanningContext(scene_geom, request->getRequestConst());
+        // auto mbss = mbcontext->getOMPLStateSpace();
+        // ompl::base::SpaceInformationPtr si = std::make_shared<ompl::base::SpaceInformation>(mbss);
+        ompl::base::SpaceInformationPtr si = convertMoveitPlanningSceneToOMPLSpaceInformation(scene_geom->getSceneConst(), setup->getGroup());
         si->setup();
         ompl::geometric::PathSimplifier psimper(si);
 
         auto ompl_gp = convertMoveItMotionPlanResponseToOMPLPathGeometric(mpres, si);
-        // psimper.simplify(ompl_gp, max_simp_time);
+        psimper.simplify(ompl_gp, max_simp_time);
         // psimper.shortcutPath(ompl_gp);
-        psimper.reduceVertices(ompl_gp);
+        // psimper.reduceVertices(ompl_gp);
         auto simp_traj = convertOMPLPathGeometricToMoveItRobotTrajectory(ompl_gp, robot->getModelConst(), setup->getGroup());
-        // trajectory =  std::make_shared<robowflex::Trajectory>(simp_traj);
+        trajectory =  std::make_shared<robowflex::Trajectory>(simp_traj);
 
         trajectory->interpolate(100);
         rviz->updateTrajectory(trajectory->getTrajectoryConst());
