@@ -105,6 +105,9 @@ int main(int argc, char **argv)
     }
 
     auto results_data = experiment.benchmark(1);
+    SearchPlanDataSetOutputter output(IO::resolveParent(results));
+    std::cout << "Results dir: " << IO::resolveParent(results) << std::endl;
+    output.dump(*results_data);
 
     // For path simplification
     double max_simp_time = 1.0;
