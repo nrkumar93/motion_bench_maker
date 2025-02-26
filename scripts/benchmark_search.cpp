@@ -108,12 +108,13 @@ int main(int argc, char **argv)
 
     // For path simplification
     double max_simp_time = 1.0;
-    auto ompl_settings = OMPL::Settings();
-    ompl_settings.simplify_solutions = true;
-    auto ompl_planner = setup->createPlanner("ompl_planner", ompl_settings);
+    int k=0;
     for (const auto& rd : results_data->data) {
         for (const auto& data_unit : rd.second) {
+            ++k;
+            ROS_INFO_STREAM("Simplifying path #: " << k << std::endl);
             if (not data_unit->success) {
+                ROS_INFO_STREAM("Path plan #: " << k << " was a failure" << std::endl);
                 continue;
             }
 
@@ -125,6 +126,18 @@ int main(int argc, char **argv)
             ompl::geometric::PathSimplifier psimper(si);
 
             auto ompl_gp = convertMoveItMotionPlanResponseToOMPLPathGeometric(mpres, si);
+            try {
+                psimper.simplify(ompl_gp, max_simp_time);
+                ROS_INFO_STREAM("Simplification for path #: " << k << " failed" << std::endl);
+            }
+            catch (std::exception& e) {
+                ROS_INFO_STREAM(e.what() << std::endl);
+                data_unit->simplified_path =  nullptr;
+
+                data_unit->metrics["simplified_l1_length"] = -1;
+                data_unit->metrics["simplified_l2_length"] = -1;
+                continue;
+            }
             psimper.simplify(ompl_gp, max_simp_time);
             auto simp_traj = convertOMPLPathGeometricToMoveItRobotTrajectory(ompl_gp, robot->getModelConst(), setup->getGroup());
             data_unit->simplified_path =  std::make_shared<robowflex::Trajectory>(simp_traj);
