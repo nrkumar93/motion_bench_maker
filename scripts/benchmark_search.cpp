@@ -137,6 +137,13 @@ int main(int argc, char **argv)
                 data_unit->metrics["simplified_l1_length"] = -1;
                 data_unit->metrics["simplified_l2_length"] = -1;
                 continue;
+            } catch (...) {
+                ROS_INFO_STREAM("Simplification for path #: " << k << " segfaulted" << std::endl);
+                data_unit->simplified_path =  nullptr;
+
+                data_unit->metrics["simplified_l1_length"] = -1;
+                data_unit->metrics["simplified_l2_length"] = -1;
+                continue;
             }
             auto simp_traj = convertOMPLPathGeometricToMoveItRobotTrajectory(ompl_gp, robot->getModelConst(), setup->getGroup());
             data_unit->simplified_path =  std::make_shared<robowflex::Trajectory>(simp_traj);
