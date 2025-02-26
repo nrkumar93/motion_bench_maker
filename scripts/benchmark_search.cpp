@@ -104,7 +104,8 @@ int main(int argc, char **argv)
         }
     }
 
-    auto results_data = experiment.benchmark(1);
+    auto results_data = experiment.benchmark(1, results);
+
     SearchPlanDataSetOutputter output(IO::resolveParent(results));
     std::cout << "Results dir: " << IO::resolveParent(results) << std::endl;
     output.dump(*results_data);
@@ -156,10 +157,11 @@ int main(int argc, char **argv)
 
             data_unit->metrics["simplified_l1_length"] = robot_trajectory::path_length(*data_unit->simplified_path->getTrajectory());
             data_unit->metrics["simplified_l2_length"] = data_unit->simplified_path->getLength();
+
+            output.dump(*results_data);
         }
     }
 
-    SearchPlanDataSetOutputter output(IO::resolveParent(results));
     std::cout << "Results dir: " << IO::resolveParent(results) << std::endl;
     output.dump(*results_data);
 
