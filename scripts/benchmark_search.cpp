@@ -123,10 +123,9 @@ int main(int argc, char **argv)
 
             ompl::base::SpaceInformationPtr si = convertMoveitPlanningSceneToOMPLSpaceInformation(mpscene->getSceneConst(), setup->getGroup());
             si->setup();
-            ompl::geometric::PathSimplifier psimper(si);
-
             auto ompl_gp = convertMoveItMotionPlanResponseToOMPLPathGeometric(mpres, si);
             try {
+                ompl::geometric::PathSimplifier psimper(si);
                 psimper.simplify(ompl_gp, max_simp_time);
             }
             catch (std::exception& e) {
