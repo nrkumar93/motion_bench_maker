@@ -7,9 +7,9 @@
 
 
   <!-- Arguments for ROS parameters -->
-  <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_panda" />
-  <arg name="results" default="package://motion_bench_maker/results/table_under_pick_panda" />
-  <arg name="exp_name" default="search_table_under_pick_panda" />
+  <arg name="dataset" default="package://motion_bench_maker/problems/table_under_pick_panda_nocyl" />
+  <arg name="results" default="package://motion_bench_maker/results/table_under_pick_panda_nocyl" />
+  <arg name="exp_name" default="search_table_under_pick_panda_nocyl" />
   <arg name="train" default="False" />
   <arg name="time_limit" default="30" />
 

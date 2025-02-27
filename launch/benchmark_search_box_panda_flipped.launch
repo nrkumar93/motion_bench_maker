@@ -7,9 +7,9 @@
 
 
   <!-- Arguments for ROS parameters -->
-  <arg name="dataset" default="package://motion_bench_maker/problems/box_panda_flipped" />
-  <arg name="results" default="package://motion_bench_maker/results/box_panda_flipped" />
-  <arg name="exp_name" default="search_box_panda_flipped" />
+  <arg name="dataset" default="package://motion_bench_maker/problems/box_panda_flipped_nocyl" />
+  <arg name="results" default="package://motion_bench_maker/results/box_panda_flipped_nocyl" />
+  <arg name="exp_name" default="search_box_panda_flipped_nocyl" />
   <arg name="train" default="False" />
   <arg name="time_limit" default="30" />
 
@@ -20,7 +20,7 @@
   <arg name="sensed" default="false" />
   <arg name="planners" default="wAstar_DEFAULT, wAstar_bfs_1_50, wAstar_je_1_50, ARAstar_DEFAULT, ARAstar_je_1_100_10_1, MHAstar_DEFAULT, MHAstar_je_bfs_1_50_2 "/>
 <!--   <arg name="planners" default="wAstar_DEFAULT"/> -->
-<!--   <arg name="planners" default="MHAstar_DEFAULT"/> -->
+  <!-- <arg name="planners" default="MHAstar_DEFAULT"/> -->
 <!--   <arg name="planners" default="Epase_DEFAULT"/> -->
 
 
