@@ -10,7 +10,7 @@
   <arg name="results" default="package://motion_bench_maker/results/bookshelf_tall_panda" />
   <arg name="exp_name" default="ompl_bookshelf_tall_panda" />
   <arg name="train" default="False" />
-  <arg name="time" default="30" />
+  <arg name="time" default="10" />
 
   <arg name="start" default="1" />
   <arg name="end" default="-1" />
