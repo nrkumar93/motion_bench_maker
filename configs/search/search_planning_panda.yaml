@@ -68,12 +68,19 @@ planner_configs:
     w1: 50.0  # The weight of the anchor heuristic.
     w2: 2   # the inflation factor of fmin_anchor for determining which nodes can be expanded.
     allowed_planning_time: 10.0
-  Epase_DEFAULT:
-    type: Epase
+  wPase_bfs_1_1000:
+    type: wPASE
     heuristic: bfs
     resolution: 1
+    weight: 1000
+    num_threads: 6
+    allowed_planning_time: 10.0
+  wPase_je_1_50:
+    type: wPASE
+    heuristic: joint_euclidean
+    resolution: 1
     weight: 50
-    num_threads: 2
+    num_threads: 6
     allowed_planning_time: 10.0
 panda_arm:
   default_planner_config: MHAstar_DEFAULT
@@ -88,4 +95,5 @@ panda_arm:
     - ARAstar_je_1_100_10_1
     - MHAstar_DEFAULT
     - MHAstar_je_bfs_1_50_2
-    - Epase_DEFAULT
+    - wPase_bfs_1_1000
+    - wPase_je_1_50

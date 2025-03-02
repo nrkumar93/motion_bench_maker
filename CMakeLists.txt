@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 cmake_policy(SET CMP0048 NEW)
 project(motion_bench_maker) 
-add_compile_options(-std=c++14)
+add_compile_options(-std=c++17)
 
 set(LIBRARY_NAME ${PROJECT_NAME})
 
@@ -9,7 +9,8 @@ list(APPEND CATKIN_SOURCES
   robowflex_library
   robowflex_ompl
   robowflex_search
-  pcl_conversions # to convert to pcl versions 
+  pcl_conversions # to convert to pcl versions
+  eigen_conversions
 )
 
 find_package(catkin REQUIRED COMPONENTS ${CATKIN_SOURCES})
